@@ -5,19 +5,26 @@
 %define keepstatic 1
 Name     : ripgrep
 Version  : 12.1.1
-Release  : 2
-URL      : /insilications/build/clearlinux/packages/ripgrep/ripgrep-12.1.1.zip
-Source0  : /insilications/build/clearlinux/packages/ripgrep/ripgrep-12.1.1.zip
+Release  : 3
+URL      : file:///insilications/build/clearlinux/packages/ripgrep/ripgrep-12.1.1.tar.gz
+Source0  : file:///insilications/build/clearlinux/packages/ripgrep/ripgrep-12.1.1.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
 Requires: ripgrep-bin = %{version}-%{release}
 Requires: ripgrep-data = %{version}-%{release}
-Requires: grep
-Requires: termcolor
+BuildRequires : ca-certs
+BuildRequires : ca-certs-static
 BuildRequires : grep
+BuildRequires : openssl
+BuildRequires : openssl-dev
 BuildRequires : rustc
+BuildRequires : rustc-bin
+BuildRequires : rustc-data
+BuildRequires : rustc-dev
+BuildRequires : rustc-staticdev
 BuildRequires : termcolor
+BuildRequires : time
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
@@ -45,23 +52,26 @@ data components for the ripgrep package.
 
 
 %prep
-%setup -q -n ripgrep-12.1.1
-cd %{_builddir}/ripgrep-12.1.1
+%setup -q -n ripgrep
+cd %{_builddir}/ripgrep
 
 %build
 unset http_proxy
 unset https_proxy
 unset no_proxy
 RUSTFLAGS="-C target-cpu=native"
+export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 cargo update --verbose
 
 %install
 RUSTFLAGS="-C target-cpu=native"
+export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 RUSTFLAGS="-C target-cpu=native" cargo install --verbose --no-track --path . --root %{buildroot}/usr/ --features 'pcre2 simd-accel'
 ## install_append content
 # shell completion for bash
 install -dm 0755 %{buildroot}/usr/share/bash-completion/completions
 install -m0644 ./target/release/build/ripgrep-*/out/rg.bash %{buildroot}/usr/share/bash-completion/completions/rg
+rm -rf ./target/release/build/ripgrep-*/out/rg.bash
 # man docs
 #install -dm 0755 %{buildroot}/usr/share/man/man1
 #install -m0644 ./target/release/build/ripgrep-*/out/rg.1 %{buildroot}/usr/share/man/man1/rg.1
