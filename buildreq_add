@@ -1,14 +1,17 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
-grep
-rustc
-rustc-bin
-rustc-dev
-rustc-staticdev
-rustc-data
-termcolor
+intltool
+intltool-dev
+autoconf-archive-dev
 ca-certs
 ca-certs-static
-time
+grep
 openssl
 openssl-dev
+rustc
+rustc-bin
+rustc-data
+rustc-dev
+rustc-staticdev
+termcolor
+time
