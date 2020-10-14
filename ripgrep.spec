@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : ripgrep
 Version  : 12.1.1
-Release  : 3
+Release  : 4
 URL      : file:///insilications/build/clearlinux/packages/ripgrep/ripgrep-12.1.1.tar.gz
 Source0  : file:///insilications/build/clearlinux/packages/ripgrep/ripgrep-12.1.1.tar.gz
 Summary  : No detailed summary available
@@ -13,9 +13,12 @@ Group    : Development/Tools
 License  : GPL-2.0
 Requires: ripgrep-bin = %{version}-%{release}
 Requires: ripgrep-data = %{version}-%{release}
+BuildRequires : autoconf-archive-dev
 BuildRequires : ca-certs
 BuildRequires : ca-certs-static
 BuildRequires : grep
+BuildRequires : intltool
+BuildRequires : intltool-dev
 BuildRequires : openssl
 BuildRequires : openssl-dev
 BuildRequires : rustc
@@ -59,6 +62,7 @@ cd %{_builddir}/ripgrep
 unset http_proxy
 unset https_proxy
 unset no_proxy
+export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 RUSTFLAGS="-C target-cpu=native"
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 cargo update --verbose
