@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : ripgrep
 Version  : 12.1.1
-Release  : 4
+Release  : 5
 URL      : file:///insilications/build/clearlinux/packages/ripgrep/ripgrep-12.1.1.tar.gz
 Source0  : file:///insilications/build/clearlinux/packages/ripgrep/ripgrep-12.1.1.tar.gz
 Summary  : No detailed summary available
